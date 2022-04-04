@@ -1,0 +1,101 @@
+---
+title: "Data Quality Report"
+output: html_document
+params:
+  data.location: NA 
+  human.readable: "Duty of Candor"
+
+---
+
+```{r setup, echo=F}
+knitr::opts_chunk$set(echo=F, warning=F, message = F)
+```
+
+``` {r}
+{
+  library(tidyverse)
+  library(lubridate)
+  library(caret)
+  library(pROC)
+  library(glue)
+  library(NURS.Data.Quality)
+}
+
+style_table <- function(data){
+  DT::datatable(
+    data,
+    options = list(scrollX = TRUE)
+  )
+}
+
+
+```
+
+
+``` {r, echo=F}
+
+comp <- function(values, limit){
+  freq <- table(values)
+  any(freq >= limit * sum(freq))
+}
+
+freq_limit <- function(data, limit){
+  results <- blank_result(data)
+  for (name in names(data)) {
+    values <- data[, name]
+    results[name] <- comp(values, limit)
+  }
+  results
+}
+
+freq_frame <- function(data){
+  tibble(
+    Variable = colnames(data),
+    `100% Modal Class` = freq_limit(data, 1),
+    `>90% Modal Class` = freq_limit(data, 0.9),
+    `>80% Modal Class` = freq_limit(data, 0.8),
+    `>50% Modal Class` = freq_limit(data, 0.5)
+  )
+}
+hr <- params$human.readable
+
+```
+
+## `r hr`
+
+### Overview
+
+``` {r}
+
+data <- readRDS(params$data.location)
+data %>% head() %>% style_table
+```
+
+### Singular Summary
+
+Rate at which most common (modal) value dominates variable:
+
+``` {r}
+freq_frame(data) %>% style_table()
+
+
+```
+
+### Missing Summary
+
+Rate at which values are missing:
+
+
+``` {r}
+tibble(
+  Variable = colnames(data),
+  `>10% Missing` = average_missing_heuristic(data, 0.1),
+  `>30% Missing` = average_missing_heuristic(data, 0.3),
+  `>50% Missing` = average_missing_heuristic(data, 0.5),
+  `>90% Missing` = average_missing_heuristic(data, 0.9)
+)%>%  style_table()
+
+
+```
+
+
