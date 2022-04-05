@@ -30,7 +30,8 @@ modal.size <- function(values){
 }
 
 data <- params$path %>% readRDS()
-missing <- c(MISSING_TYPES, "  /  /    ", "NULL", "null", "Null")
+missing <- c(NA, "", " ", "NA", "nan", "  /  /    ",
+                   "NULL", "null", "Null")
 missing.rates <- data %>% is.missing(missing) %>% apply(2, mean)
 
 miss.1 <- which(missing.rates == 1) %>% names()

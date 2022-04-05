@@ -28,7 +28,7 @@ MISSING_TYPES <- c(NA, "", " ", "NA", "nan", "  /  /    ",
 
 ```
 
-``` {r}
+``` {r results="asis"}
 
 data <- params$path %>% readRDS()
 missing <- c(MISSING_TYPES, "  /  /    ", "NULL", "null", "Null")
@@ -39,6 +39,16 @@ location.feature <- data[[params$location_variable]]
 missing.data <- data %>% select(-c(params$location_variable, params$date_variable)) %>% 
   is.missing(missing)  
 missing.rates <- missing.data %>% apply(2, mean)
+
+for (i in names(missing.rates)){
+   cat('\n')  
+   cat(glue("{i}: {round(100*missing.rates[i], 3)}%\n"))
+   cat("\n")
+}
+
+``` 
+
+``` {r}
 
 missing.vars <- missing.rates[(missing.rates < 0.2) & (missing.rates > 0.001)] %>% 
   names()
