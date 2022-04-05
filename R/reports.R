@@ -24,6 +24,8 @@ report.DQ <- function(data, human.readable, output_pattern="DQ reports/DQ {human
 
 report.loc_date <- function(data, human.readable, location.var, date.var,
                             output_pattern="Location Date reports/LD {human.readable}"){
+  #' @export
+
   temp <- tempfile()
   saveRDS(data, temp)
 
