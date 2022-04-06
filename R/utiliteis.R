@@ -19,3 +19,10 @@ is.missing <- function(values, missing_types=MISSING_TYPES){
 
   sapply(values, function(i) i %in% missing_types)
 }
+
+varImp.lda <- function(model){
+  #' @export
+
+  coef(model)
+}
+
