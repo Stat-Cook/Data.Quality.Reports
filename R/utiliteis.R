@@ -20,6 +20,13 @@ is.missing <- function(values, missing_types=MISSING_TYPES){
   sapply(values, function(i) i %in% missing_types)
 }
 
+varImp <- function(model){
+  #' @export
+  result <- caret::varImp(model)
+  colnames(result) <- "Score"
+  result
+}
+
 varImp.lda <- function(model){
   #' @importFrom caret varImp
   #' @export
