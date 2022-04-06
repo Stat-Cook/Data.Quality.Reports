@@ -21,6 +21,7 @@ is.missing <- function(values, missing_types=MISSING_TYPES){
 }
 
 varImp.lda <- function(model){
+  #' @importFrom caret varImp
   #' @export
 
   coef(model)
