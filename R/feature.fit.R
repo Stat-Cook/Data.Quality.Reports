@@ -18,7 +18,12 @@ feature.fit <- function(target, feature){
   embedTest <- bake(rec, new_data=test)
 
 
-  model <- MASS::lda(y ~ -1 + ., data=embed)
+  model <- tryCatch(
+    MASS::lda(y ~ -1 + ., data=embed),
+    error = function(e){
+      rpart::rpart(y ~ -1 + ., data=embed)
+    }
+  )
 
   phat <- predict(model, embedTest, type="response")
   h <- phat$posterior   %>% as.data.frame()
