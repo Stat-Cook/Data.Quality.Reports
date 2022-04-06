@@ -20,13 +20,19 @@ feature.fit <- function(target, feature){
 
   model <- tryCatch(
     MASS::lda(y ~ -1 + ., data=embed),
-    error = function(e){
+    error = function(e) {
+      embed$y <- as.character(embed$y)
       rpart::rpart(y ~ -1 + ., data=embed)
     }
   )
 
-  phat <- predict(model, embedTest, type="response")
-  h <- phat$posterior   %>% as.data.frame()
+  phat <- tryCatch(
+    predict(model, embedTest, type="response")$posterior ,
+    error = function(e) {
+      predict(model, embedTest)
+    }
+  )
+  h <- as.data.frame(phat)
   phat <- h[["TRUE"]]
 
   result <- tibble(obs = embedTest$y, pred=phat) %>% roc_("obs", "pred")
