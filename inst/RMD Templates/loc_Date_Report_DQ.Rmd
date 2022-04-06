@@ -18,6 +18,7 @@ library(tidyverse)
 library(recipes)
 library(lubridate)
 library(NURS.Data.Quality)
+library(caret)
 
 MISSING_TYPES <- c(NA, "", " ", "NA", "nan", "  /  /    ",
                    "NULL", "null", "Null")
@@ -94,11 +95,11 @@ to.group <- function(values, result) {
 
 
 generate_plot <- function(result, title=NA){
-  plotdata <- coef(result$model) %>% as.data.frame() %>% 
+  plotdata <- varImp(result$model) %>% as.data.frame() %>% 
     mutate(Group = to.group(rownames(.), result))
   ncol <- (1 + nrow(plotdata) %/% 16)
   plotdata %>% 
-    ggplot(aes(x=Group,  y=LD1, color=Group)) + 
+    ggplot(aes(x=Group,  y=Score, color=Group)) + 
     geom_point() + guides(color=guide_legend(ncol=ncol,byrow=FALSE)) + 
     theme(axis.title.x=element_blank(),
                          axis.text.x=element_blank(),
