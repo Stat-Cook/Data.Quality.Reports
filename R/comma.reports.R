@@ -16,9 +16,16 @@ check.last <- function(con, sql.tbl, human.readable=NA){
   last.col <- last.col[[last]]
 
   comma.cnt <- stringr::str_count(last.col, ",") %>% table()
+  comma.examples <- last.col[grepl(",", last.col)]
 
-  comma.cnt
+  result <- list(
+    "Count" = comma.cnt,
+    "Examples" =table(comma.examples)
+  )
+  class(result) <- "CommaSummary"
+  result
 }
+
 
 report <- function(con, pattern){
   #' @export
@@ -36,9 +43,16 @@ report <- function(con, pattern){
   commas
 }
 
+zero.prop <- function(comma.summary){
+
+  cnt <- comma.summary[["Count"]]
+  1 - cnt[["0"]] / sum(cnt)
+
+}
+
 select.commas <- function(report, limit=0){
   #' @export
-  comma.prop <- sapply(report, function(i) 1 - i[["0"]] / sum(i))
+  comma.prop <- sapply(report, zero.prop)
 
   which(comma.prop > 0) %>% names()
 }
