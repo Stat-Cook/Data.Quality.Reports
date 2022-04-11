@@ -1,4 +1,5 @@
 check.last <- function(con, sql.tbl, human.readable=NA){
+  #' @import dplyr
 
   if (is.na(human.readable)){
     human.readable <- sql.tbl
@@ -7,11 +8,10 @@ check.last <- function(con, sql.tbl, human.readable=NA){
   cols <- tbl(con, sql.tbl) %>%
     colnames()
 
-
   last <- tail(cols, 1)
 
-  last.col <- tbl(con, sql.tbl) %>%
-    select(last) %>% collect()
+  sql.t <- tbl(con, sql.tbl)
+  last.col <- collect(select(sql.t, last))
 
   last.col <- last.col[[last]]
 
