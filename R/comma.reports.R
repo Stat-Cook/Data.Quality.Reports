@@ -50,7 +50,7 @@ zero.prop <- function(comma.summary){
 
 }
 
-select.commas <- function(report, limit=0){
+select_commas <- function(report, limit=0){
   #' @export
   comma.prop <- sapply(report, zero.prop)
 
