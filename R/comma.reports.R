@@ -15,11 +15,11 @@ check.last <- function(con, sql.tbl, human.readable=NA){
 
   last.col <- last.col[[last]]
 
-  comma.cnt <- stringr::str_count(last.col, ",") %>% table()
+  comma.cnt <- stringr::str_count(last.col, ",")
   comma.examples <- last.col[grepl(",", last.col)]
 
   result <- list(
-    "Count" = comma.cnt,
+    "Count" = table(comma.cnt),
     "Examples" =table(comma.examples)
   )
   class(result) <- "CommaSummary"
@@ -67,8 +67,13 @@ render.Comma <- function(data, human.readable){
     human.readable = human.readable
   )
 
+  output.string <- file.path(
+    getwd(),
+    glue(glue("{human.readable} Comma DQ"))
+  )
+
   rmarkdown::render(Comma.template,
                     params=render.params,
-                    output_file = glue("{human.readable} Comma DQ"))
+                    output_file = output.string)
 }
 
