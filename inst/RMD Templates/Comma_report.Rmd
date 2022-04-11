@@ -24,15 +24,18 @@ if(is.na(params$data.location)){
 summary <- readRDS(params$data.location)
 
 for (var in names(summary)){
-  cat(glue("## {var} \n"))
+  cat(glue("### Value: {var} \n"))
+  cat("\n")
   d <- summary[[var]]
   tot <- sum(d[["Count"]])
   examples <- d[["Examples"]]
   examples.names <- names(examples)
   
   for (ex in names(examples)){
-    cat(glue("{ex}: {round(examples*tot, 1)} %\n"))
+    cat(glue("'{ex}': {round(examples[[ex]]/tot*100, 1)} % "))
+    cat("\n\n")
   }
+  cat("\n")
   
 }
 
