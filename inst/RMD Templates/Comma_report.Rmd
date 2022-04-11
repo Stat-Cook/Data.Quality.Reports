@@ -1,0 +1,40 @@
+---
+title: "Comma Report"
+output: html_document
+params:
+  data.location: NA 
+  human.readable: "Duty of Candor"
+
+
+---
+
+```{r setup, echo=F}
+knitr::opts_chunk$set(echo=F, warning=F, message = F)
+library(glue)
+if(is.na(params$data.location)){
+  stop("No `data.location` given - report aborted.")
+}
+
+```
+
+# `r params$human.readable`
+
+``` {r, echo=F, results="asis"}
+
+summary <- readRDS(params$data.location)
+
+for (var in names(summary)){
+  cat(glue("## {var} \n"))
+  d <- summary[[var]]
+  tot <- sum(d[["Count"]])
+  examples <- d[["Examples"]]
+  examples.names <- names(examples)
+  
+  for (ex in names(examples)){
+    cat(glue("{ex}: {round(examples*tot, 1)} %\n"))
+  }
+  
+}
+
+```
+
