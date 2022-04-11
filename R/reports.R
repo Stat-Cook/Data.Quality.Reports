@@ -1,6 +1,7 @@
 DQ.template <- system.file("RMD Templates", "DQ_report.RMD", package="Data.Quality.Reports")
 LD.template <- system.file("RMD Templates", "loc_Date_Report_DQ.RMD", package="Data.Quality.Reports")
 Missing.template <- system.file("RMD Templates", "missing_Report_DQ.RMD", package="Data.Quality.Reports")
+Comma.template <- system.file("RMD Templates", "Comma_report.RMD", package="Data.Quality.Reports")
 
 
 report.DQ <- function(data, human.readable, output_pattern="DQ reports/DQ {human.readable}"){

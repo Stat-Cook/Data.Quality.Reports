@@ -57,3 +57,18 @@ select_commas <- function(report, limit=0){
   which(comma.prop > 0) %>% names()
 }
 
+render.Comma <- function(data, human.readable){
+  #' @export
+  temp <- tempfile()
+  saveRDS(data, temp)
+
+  render.params <- list(
+    data.location = temp,
+    human.readable = human.readable
+  )
+
+  rmarkdown::render(Comma.template,
+                    params=render.params,
+                    output_file = glue("{human.readable} Comma DQ"))
+}
+
