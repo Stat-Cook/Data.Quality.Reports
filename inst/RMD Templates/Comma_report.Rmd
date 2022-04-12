@@ -29,12 +29,19 @@ for (var in names(summary)){
   d <- summary[[var]]
   tot <- sum(d[["Count"]])
   examples <- d[["Examples"]]
-  examples.names <- names(examples)
   
-  for (ex in names(examples)){
+  prop <- 100 * examples / tot
+  examples.names <- names(which(prop > 0.1))
+  other.names <- names(which(!(prop > 0.1)))
+  other.prop <- sum(prop[other.names])
+  
+  for (ex in examples.names){
     cat(glue("'{ex}': {round(examples[[ex]]/tot*100, 1)} % "))
     cat("\n\n")
   }
+  
+  cat(glue("Other: {round(other.prop, 1)} % "))
+    cat("\n\n")
   cat("\n")
   
 }
