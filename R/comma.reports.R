@@ -46,7 +46,18 @@ report <- function(con, pattern){
 zero.prop <- function(comma.summary){
 
   cnt <- comma.summary[["Count"]]
-  1 - cnt[["0"]] / sum(cnt)
+  if(sum(cnt) == 0){
+    return(NA)
+  }
+
+  val <- tryCatch(
+    cnt[["0"]],
+    error = function(e) {
+      0
+    }
+  )
+
+  1 - val / sum(cnt)
 
 }
 
@@ -77,3 +88,9 @@ render.Comma <- function(data, human.readable){
                     output_file = output.string)
 }
 
+# a <- sample(1:2, 100, T)
+# b <- sample(1:2, 100, T)
+#
+# l <- list(A = result)
+#
+# render.Comma(l, "Test")
