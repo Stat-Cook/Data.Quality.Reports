@@ -39,10 +39,11 @@ for (var in names(summary)){
     cat(glue("'{ex}': {round(examples[[ex]]/tot*100, 1)} % "))
     cat("\n\n")
   }
-  
-  cat(glue("Other: {round(other.prop, 1)} % "))
-    cat("\n\n")
-  cat("\n")
+  if(other.prop != 0){
+    cat(glue("Other: {round(other.prop, 1)} % "))
+      cat("\n\n")
+    cat("\n")
+  }
   
 }
 
