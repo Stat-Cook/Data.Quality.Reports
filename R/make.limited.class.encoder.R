@@ -1,5 +1,12 @@
 
 choose.categories <- function(values, cutoff = 0.8, min.use = 1, maxitems=NA){
+  #' Select a subset of a categorical variable cardinality.
+  #'
+  #' @param values Vector of values to reduce cardinality of
+  #' @param cutoff Total percentage of variable to capture
+  #' @param min.use Minimum use of each choice to be included
+  #' @param maxitems [optional] Maximum cardinality to reach
+  #'
   #' @export
   v <- values %>% table(useNA = "ifany")
   total <- sum(v)
@@ -15,6 +22,11 @@ choose.categories <- function(values, cutoff = 0.8, min.use = 1, maxitems=NA){
 }
 
 make.limited.class.encoder <- function(trainingData){
+  #' Produce a function to reduce carnality of feature vectors in a data frame.
+  #' Learns a pattern for each column by name.
+  #'
+  #' @param trainingData A data frame to learn class encoders from
+  #'
   #' @export
   common.classes <- list()
   temp <- trainingData

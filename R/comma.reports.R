@@ -1,9 +1,10 @@
-check.last <- function(con, sql.tbl, human.readable=NA){
+check.last <- function(con, sql.tbl){
+  #' Analyze the presences of commas (',') in the last column of a SQL database.
+  #'
+  #' @param con A `DBIConnection` object
+  #' @param sql.tbl The reference string of the table to be querried.
+  #'
   #' @import dplyr
-
-  if (is.na(human.readable)){
-    human.readable <- sql.tbl
-  }
 
   cols <- tbl(con, sql.tbl) %>%
     colnames()
@@ -28,6 +29,11 @@ check.last <- function(con, sql.tbl, human.readable=NA){
 
 
 report <- function(con, pattern){
+  #' Check all available sql tables that match a string pattern.
+  #'
+  #' @inheritParams check.last
+  #' @param pattern A string for matching to (grepl)
+  #'
   #' @export
   #'
   tab <- dbListTables(con)
@@ -44,7 +50,10 @@ report <- function(con, pattern){
 }
 
 zero.prop <- function(comma.summary){
-
+  #' Calculate what proportion of responses had zero commas.
+  #'
+  #' @param comma.summary A list produced by `check.last`
+  #'
   cnt <- comma.summary[["Count"]]
   if(sum(cnt) == 0){
     return(NA)
@@ -62,13 +71,24 @@ zero.prop <- function(comma.summary){
 }
 
 select_commas <- function(report, limit=0){
+  #' Function to filter a list of `CommaSummary` objects for those where
+  #' some commas are used.
+  #'
+  #' @param report list of `CommaSummary` objects
+  #' @param limit [optional] Count of minimum number of commas allowed
+  #'
   #' @export
   comma.prop <- sapply(report, zero.prop)
 
-  which(comma.prop > 0) %>% names()
+  which(comma.prop > limit) %>% names()
 }
 
 render.Comma <- function(data, human.readable){
+  #' Render the RMD report of comma cases.
+  #'
+  #' @param data A list of `CommaSummary` objects
+  #' @param human.readable A string to represent the data.
+  #'
   #' @export
   temp <- tempfile()
   saveRDS(data, temp)
@@ -87,10 +107,3 @@ render.Comma <- function(data, human.readable){
                     params=render.params,
                     output_file = output.string)
 }
-
-# a <- sample(1:2, 100, T)
-# b <- sample(1:2, 100, T)
-#
-# l <- list(A = result)
-#
-# render.Comma(l, "Test")

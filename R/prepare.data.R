@@ -1,9 +1,19 @@
 prepare.data <- function(feature, target, extract_name=extract_name){
+  #' This is a generic method that dispatches based on the first argument.
+  #'
+  #' @param feature Vector of data
+  #' @param target Vector of data where some values are missing
+  #' @param extract_name Function for naming discretized features
+  #'
   UseMethod("prepare.data", feature)
 }
 
 
 prepare.data.character <- function(feature, target, extract_name=extract_name){
+  #' Method for `prepare.data` if feature is categorical (character vector)
+  #'
+  #' @inheritParams prepare.data
+  #'
   dp <- createDataPartition(target, p = .8,
                             list = FALSE,
                             times = 1)
@@ -21,21 +31,40 @@ prepare.data.character <- function(feature, target, extract_name=extract_name){
 }
 
 prepare.data.POSIXct <- function(feature, target, extract_name=extract_name){
+
+  #' Method for `prepare.data` if feature is a date/time (POSIXct vector)
+  #'
+  #' @inheritParams prepare.data
+  #'
   feature.numeric <- feature %>% as.numeric()
 
   prepare.data(feature.numeric, target, extract_name.POSIXct)
-}
-
-extract_name <- function(data){
-  data %>% group_by(Group) %>% summarise(start = min(Value), end=max(Value)) %>%
-    mutate(name = paste(start, "-", end))
 }
 
 year_month <- function(value){
   paste(month(value), year(value), sep="/")
 }
 
+
+extract_name <- function(data){
+  #' Convert numeric variables aggregated by `Groups` into a string representation.
+  #'
+  #' @param data The data set to be converted.
+  #' Should have columns `Value` and `Group`, where `Value` is numeric and `Group` is categorical.
+  #'
+  #'
+  data %>% group_by(Group) %>% summarise(start = min(Value), end=max(Value)) %>%
+    mutate(name = paste(start, "-", end))
+}
+
+
 extract_name.POSIXct <- function(data){
+  #' Convert date time variables aggregated by `Groups` into a string representation.
+  #'
+  #' @param data The data set to be converted.
+  #' Should have columns `Value` and `Group`, where `Value` is a date time and `Group` is categorical.
+  #'
+  #'
   data %>% group_by(Group) %>%
     summarise(
       start = as.POSIXct(min(Value), origin='1970-01-01'),
@@ -46,6 +75,10 @@ extract_name.POSIXct <- function(data){
 
 
 prepare.data.default <- function(feature, target, extract_name=extract_name){
+  #' Method for `prepare.data` for any other data types (eg numeric vector)
+  #'
+  #' @inheritParams prepare.data
+  #'
   dp <- createDataPartition(target, p = .8,
                             list = FALSE,
                             times = 1)

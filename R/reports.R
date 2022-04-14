@@ -5,6 +5,14 @@ Comma.template <- system.file("RMD Templates", "Comma_report.RMD", package="Data
 
 
 report.DQ <- function(data, human.readable, output_pattern="DQ reports/DQ {human.readable}"){
+  #' Generate a data quality report for a data set.
+  #'
+  #' @param data The data set to be reported ob
+  #' @param human.readable A string representative of the data set to be used
+  #' in the report.
+  #' @param output_pattern A string to determine export location.  NB: string is parsed via
+  #' `glue` hence code chunks can be included.
+  #'
   #' @export
   temp <- tempfile()
   saveRDS(data, temp)
@@ -25,6 +33,13 @@ report.DQ <- function(data, human.readable, output_pattern="DQ reports/DQ {human
 
 report.loc_date <- function(data, human.readable, location.var, date.var,
                             output_pattern="Location Date reports/LD {human.readable}"){
+  #' Generate a missingness report reflecting how dependent missingess is on given
+  #' location (categorical) and date time (numeric) variables.
+  #'
+  #' @inheritParams  report.DQ
+  #' @param location.var A variable of `data` that represents a categorical location.
+  #' @param date.var A variable of `data` that represents a numeric date time.
+  #'
   #' @export
 
   temp <- tempfile()
@@ -50,6 +65,10 @@ report.loc_date <- function(data, human.readable, location.var, date.var,
 
 report.missing <- function(data, human.readable,
                            output_pattern = "missing_Reports/Missing {human.readable}.html" ){
+  #' Generate a general report of missingness for a data set.
+  #'
+  #' @inheritParams report.DQ
+  #'
   #' @export
   temp <- tempfile()
   saveRDS(data, temp)

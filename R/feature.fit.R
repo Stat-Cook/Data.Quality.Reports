@@ -1,4 +1,12 @@
 feature.fit <- function(target, feature){
+  #' Analyze if the missingess of `target` can be predicted from `feature`.
+  #' `Feature` can be a numeric or categorical vector, and the model is LDA with
+  #' a binary decision tree as back up (rpart).
+  #'
+  #' @param target A vector with some values missing
+  #' @param feature A vector we wish to predict missingess from.
+  #'
+  #'
   #' @export
 
   tts <- prepare.data(feature, target)
