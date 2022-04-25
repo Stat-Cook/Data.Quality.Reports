@@ -36,7 +36,3 @@ DQ.Report <- function(con, pattern){
                          "Comma" = comma.tbl)
   }
 }
-i <- "Boston"
-data.modal
-
-results[["Boston"]]
