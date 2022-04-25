@@ -1,4 +1,4 @@
-modal.size <- function(values){
+modal.report <- function(values){
   modal.size <- table(values) %>% sort() %>% tail(1)
   c(Value = names(modal.size),
     Proportion = as.numeric(modal.size) / length(values))
@@ -18,10 +18,11 @@ DQ.Report <- function(con, pattern){
   for (i in tabs){
     data <- tbl(con, i) %>% collect()
 
-    data.modal.size <- lapply(data, modal.size)
+    data.modal.size <- lapply(data, modal.report)
     data.modal.size <- t(do.call(data.frame, data.modal.size))
-    data.modal.size <- as_tibble(data.modal.size, rownames="Variable")
-    data.modal.size$Proportion <- as.numeric(data.modal.size$Proportion)
+    data.modal.size <- as_tibble(data.modal.size, rownames="Variable") %>%
+      mutate(Proportion = as.numeric(Proportion))
+
     data.modal.size <- data.modal.size %>% filter(Proportion > 0.8)
     data.missing <- data.modal  %>% filter(Value %in% missing)
     data.modal <- data.modal  %>% filter(!(Value %in% missing))
