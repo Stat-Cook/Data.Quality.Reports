@@ -24,8 +24,8 @@ DQ.Report <- function(con, pattern){
       mutate(Proportion = as.numeric(Proportion))
 
     data.modal.size <- data.modal.size %>% filter(Proportion > 0.8)
-    data.missing <- data.modal  %>% filter(Value %in% missing)
-    data.modal <- data.modal  %>% filter(!(Value %in% missing))
+    data.missing <- data.modal.size  %>% filter(Value %in% missing)
+    data.modal <- data.modal.size  %>% filter(!(Value %in% missing))
 
     last.col.string <- tail(colnames(data), 1)
     last.col <- data[[last.col.string]]
