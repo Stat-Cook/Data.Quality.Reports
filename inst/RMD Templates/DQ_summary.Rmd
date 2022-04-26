@@ -31,6 +31,8 @@ comma.summary <- function(data, name){
 }
 ```
 
+## Overview
+
 ``` {r}
 {
   library(tidyverse)
@@ -57,25 +59,42 @@ as_tibble(report, rownames="Dataset") %>% style_table()
 
 ```
 
+## Missing Proportions
+
 ``` {r}
-
-
-do.call(rbind, lapply(rep, f)) %>% 
-  as_tibble(rownames="Dataset") %>% 
-  style_table()
 
 do.call(
   rbind, 
   lapply(names(rep), function(i) add.name(rep[[i]]$Missing, i))
 ) %>% 
-  as_tibble(rownames="Dataset") %>% 
+  as_tibble() %>% 
   style_table()
+
+```
+
+## Modal Proportions
+
+``` {r}
 
 do.call(
   rbind, 
-  lapply(names(rep), function(i) comma.summary(rep[[i]]$Comma, i))
+  lapply(names(data), function(i) add.name(data[[i]]$Modal, i))
 ) %>% 
-  as_tibble(rownames="Dataset") %>% 
+  as_tibble() %>% 
+  style_table()
+
+
+```
+
+## Comma Presense
+
+``` {r}
+
+do.call(
+  rbind, 
+  lapply(names(data), function(i) comma.summary(data[[i]]$Comma, i))
+) %>% 
+  as_tibble() %>% 
   style_table()
 
 
