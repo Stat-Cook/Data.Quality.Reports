@@ -2,7 +2,7 @@
 title: "Data Quality Report"
 output: html_document
 params:
-  data.location: NA 
+  path: NA 
   human.readable: "Duty of Candor"
 
 ---
