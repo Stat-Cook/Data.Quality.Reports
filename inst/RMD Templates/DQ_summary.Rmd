@@ -14,11 +14,6 @@ knitr::opts_chunk$set(echo=F, warning=F, message = F)
 ``` {r}
 {
   library(tidyverse)
-  library(lubridate)
-  library(caret)
-  library(pROC)
-  library(glue)
-  library(NURS.Data.Quality)
 }
 
 data.summary <- function(data) {
