@@ -29,7 +29,7 @@ data.summary <- function(data) {
   )
 }
 
-data <- read.RDS(params$path)
+data <- readRDS(params$path)
 
 report <- do.call(rbind, lapply(data, f)) 
 
