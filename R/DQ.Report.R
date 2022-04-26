@@ -34,7 +34,8 @@ DQ.Report <- function(con, pattern){
 
     results[[i]] <- list("Missing" = data.missing,
                          "Modal" = data.modal,
-                         "Comma" = comma.tbl)
+                         "Comma" = comma.tbl,
+                         "Dimensions" = dim(data))
   }
 
   return(results)
