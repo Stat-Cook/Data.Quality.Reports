@@ -36,4 +36,6 @@ DQ.Report <- function(con, pattern){
                          "Modal" = data.modal,
                          "Comma" = comma.tbl)
   }
+
+  return(results)
 }
