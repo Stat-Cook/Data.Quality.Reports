@@ -9,6 +9,26 @@ params:
 
 ```{r setup, echo=F}
 knitr::opts_chunk$set(echo=F, warning=F, message = F)
+
+style_table <- function(data){
+  DT::datatable(
+    data,
+    options = list(scrollX = TRUE)
+  )
+}
+
+add.name <- function(data, name){
+  data$DataSet <- name
+  return(data) 
+}
+
+comma.summary <- function(data, name){
+  
+  c(
+    Dataset = name,
+    `Comma prop` = sum(data[names(data) != 0 ])/sum(data)
+  )
+}
 ```
 
 ``` {r}
@@ -33,7 +53,33 @@ data <- readRDS(params$path)
 
 report <- do.call(rbind, lapply(data, f)) 
 
-as_tibble(report, rownames="Dataset")
+as_tibble(report, rownames="Dataset") %>% style_table()
 
 ```
+
+``` {r}
+
+
+do.call(rbind, lapply(rep, f)) %>% 
+  as_tibble(rownames="Dataset") %>% 
+  style_table()
+
+do.call(
+  rbind, 
+  lapply(names(rep), function(i) add.name(rep[[i]]$Missing, i))
+) %>% 
+  as_tibble(rownames="Dataset") %>% 
+  style_table()
+
+do.call(
+  rbind, 
+  lapply(names(rep), function(i) comma.summary(rep[[i]]$Comma, i))
+) %>% 
+  as_tibble(rownames="Dataset") %>% 
+  style_table()
+
+
+
+```
+
 
