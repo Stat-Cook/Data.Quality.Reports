@@ -101,7 +101,7 @@ report.DQ_summary <- function(data,
 
   render.params <- list(path = temp)
 
-  rmarkdown::render(Missing.template,
+  rmarkdown::render(Summary.template,
                     params=render.params,
                     output_file = output.string)
 }
