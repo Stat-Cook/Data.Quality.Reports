@@ -1,0 +1,44 @@
+---
+title: "Data Quality Report"
+output: html_document
+params:
+  data.location: NA 
+  human.readable: "Duty of Candor"
+
+---
+
+```{r setup, echo=F}
+knitr::opts_chunk$set(echo=F, warning=F, message = F)
+```
+
+``` {r}
+{
+  library(tidyverse)
+  library(lubridate)
+  library(caret)
+  library(pROC)
+  library(glue)
+  library(NURS.Data.Quality)
+}
+
+data.summary <- function(data) {
+  modal <- data$Modal
+  missing <- data$Missing
+    
+  c(`N var` = data$Dimensions[2],
+    `N row` = data$Dimensions[1],
+    "100% Missing" = sum(missing$Proportion == 1),
+    "> 80% Missing" = sum(missing$Proportion != 1),
+    "100% Modal" = sum(modal$Proportion == 1),
+    "> 80% Modal" = sum(modal$Proportion != 1)
+  )
+}
+
+data <- read.RDS(params$path)
+
+report <- do.call(rbind, lapply(data, f)) 
+
+as_tibble(report, rownames="Dataset")
+
+```
+
