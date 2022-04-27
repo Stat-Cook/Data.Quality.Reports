@@ -62,13 +62,16 @@ as_tibble(report, rownames="Dataset") %>% style_table()
 ## Missing Proportions
 
 ``` {r}
-
-do.call(
+missing <- do.call(
   rbind, 
   lapply(names(data), function(i) add.name(data[[i]]$Missing, i))
 ) %>% 
-  as_tibble() %>% 
-  mutate(Proportion = round(as.numeric(Proportion), 3)) %>% 
+  as_tibble()
+
+tryCatch(
+  missing %>% mutate(Proportion = round(as.numeric(Proportion), 3)),
+  error = function(e) missing
+) %>%
   style_table()
 
 ```
@@ -77,12 +80,16 @@ do.call(
 
 ``` {r}
 
-do.call(
+modal <- do.call(
   rbind, 
   lapply(names(data), function(i) add.name(data[[i]]$Modal, i))
 ) %>% 
-  as_tibble() %>% 
-  mutate(Proportion = round(as.numeric(Proportion), 3)) %>%
+  as_tibble()
+
+tryCatch(
+  modal %>% mutate(Proportion = round(as.numeric(Proportion), 3)),
+  error = function(e) modal
+) %>%
   style_table()
 
 
@@ -100,6 +107,18 @@ do.call(
   mutate(`Comma prop` = round(as.numeric(`Comma prop`), 3)) %>%
   style_table()
 
+
+comma <- do.call(
+  rbind, 
+  lapply(names(data), function(i) comma.summary(data[[i]]$Comma, i))
+) %>% 
+  as_tibble()
+
+tryCatch(
+  comma %>% mutate(`Comma prop` = round(as.numeric(`Comma prop`), 3)),
+  error = function(e) comma
+) %>%
+  style_table()
 
 
 ```
