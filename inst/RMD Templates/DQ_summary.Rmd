@@ -68,7 +68,7 @@ do.call(
   lapply(names(data), function(i) add.name(data[[i]]$Missing, i))
 ) %>% 
   as_tibble() %>% 
-  mutate(Proportion = round(as.numeric(Proportion), 3) %>% 
+  mutate(Proportion = round(as.numeric(Proportion), 3)) %>% 
   style_table()
 
 ```
@@ -82,7 +82,7 @@ do.call(
   lapply(names(data), function(i) add.name(data[[i]]$Modal, i))
 ) %>% 
   as_tibble() %>% 
-  mutate(Proportion = round(as.numeric(Proportion), 3) %>%
+  mutate(Proportion = round(as.numeric(Proportion), 3)) %>%
   style_table()
 
 
@@ -97,7 +97,7 @@ do.call(
   lapply(names(data), function(i) comma.summary(data[[i]]$Comma, i))
 ) %>% 
   as_tibble() %>% 
-  mutate(`Comma prop` = round(as.numeric(`Comma prop`), 3) %>%
+  mutate(`Comma prop` = round(as.numeric(`Comma prop`), 3)) %>%
   style_table()
 
 
