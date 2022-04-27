@@ -1,5 +1,5 @@
 modal.report <- function(values){
-  modal.size <- table(values) %>% sort() %>% tail(1)
+  modal.size <- table(values, useNA = "ifany") %>% sort() %>% tail(1)
   c(Value = names(modal.size),
     Proportion = as.numeric(modal.size) / length(values))
 }
