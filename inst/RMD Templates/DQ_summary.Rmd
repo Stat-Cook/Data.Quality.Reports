@@ -97,7 +97,7 @@ do.call(
   lapply(names(data), function(i) comma.summary(data[[i]]$Comma, i))
 ) %>% 
   as_tibble() %>% 
-  mutate(`Comma prop` = as.numeric(`Comma prop`))
+  mutate(`Comma prop` = as.numeric(`Comma prop`)) %>%
   style_table()
 
 
