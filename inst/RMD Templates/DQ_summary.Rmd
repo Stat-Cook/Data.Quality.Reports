@@ -65,7 +65,7 @@ as_tibble(report, rownames="Dataset") %>% style_table()
 
 do.call(
   rbind, 
-  lapply(names(rep), function(i) add.name(rep[[i]]$Missing, i))
+  lapply(names(data), function(i) add.name(data[[i]]$Missing, i))
 ) %>% 
   as_tibble() %>% 
   style_table()
