@@ -68,11 +68,13 @@ missing <- do.call(
 ) %>% 
   as_tibble()
 
-tryCatch(
-  missing %>% mutate(Proportion = round(as.numeric(Proportion), 3)),
-  error = function(e) missing
-) %>%
-  style_table()
+if (dim(missing)[1] > 0){
+  missing <- missing %>% mutate(
+    Proportion = round(as.numeric(Proportion), 3)
+  )
+}
+
+missing %>% style_table()
 
 ```
 
@@ -86,27 +88,18 @@ modal <- do.call(
 ) %>% 
   as_tibble()
 
-tryCatch(
-  modal %>% mutate(Proportion = round(as.numeric(Proportion), 3)),
-  error = function(e) modal
-) %>%
-  style_table()
+if (dim(modal)[1] > 0){
+  modal <- modal %>% mutate(
+    Proportion = round(as.numeric(Proportion), 3)
+  )
+}
 
-
+modal %>% style_table()
 ```
 
 ## Comma Presense
 
 ``` {r}
-
-do.call(
-  rbind, 
-  lapply(names(data), function(i) comma.summary(data[[i]]$Comma, i))
-) %>% 
-  as_tibble() %>% 
-  mutate(`Comma prop` = round(as.numeric(`Comma prop`), 3)) %>%
-  style_table()
-
 
 comma <- do.call(
   rbind, 
@@ -114,12 +107,13 @@ comma <- do.call(
 ) %>% 
   as_tibble()
 
-tryCatch(
-  comma %>% mutate(`Comma prop` = round(as.numeric(`Comma prop`), 3)),
-  error = function(e) comma
-) %>%
-  style_table()
+if (dim(comma)[1] > 0){
+  comma <- comma %>% mutate(
+    `Comma prop` = round(as.numeric(`Comma prop`), 3)
+  )
+}
 
+comma %>% style_table()
 
 ```
 
