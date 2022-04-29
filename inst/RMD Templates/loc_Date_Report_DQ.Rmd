@@ -1,5 +1,5 @@
 ---
-title: "Template1"
+title: "Location & Date reporting bias"
 output: html_document
 params:
   path: C:\Users\LOCAL_~3\Temp\RtmpkPFN75\file478c6bfd7478
@@ -9,7 +9,7 @@ params:
 
 ---
 
-```{r setup}
+```{r setup, echo=F}
 knitr::opts_chunk$set(echo=F, warning=F, message = F)
 ```
 
@@ -28,6 +28,8 @@ MISSING_TYPES <- c(NA, "", " ", "NA", "nan", "  /  /    ",
 # source("feature.fit.R")
 
 ```
+
+## Rates of missing observations by variable
 
 ``` {r results="asis"}
 
@@ -48,6 +50,10 @@ for (i in names(missing.rates)){
 }
 
 ``` 
+
+## Summary of predictability of missing patterns based on location or date
+
+Predictability is measured via the ROC, which ranges from 0.5 to 1, with 1 implying perfect predictability.  Data was divided into training and validation sets - so ROC represents predicatbility on data unseen during training.   Value of > 0.8 may be cuase for concern (see the figures that follow for interpretation of models).
 
 ``` {r}
 
@@ -111,6 +117,8 @@ generate_plot <- function(result, title=NA){
 
 ## `r params$date_variable` on Missing
 
+Figures to summarize  Date on missing bias.
+
 ``` {r, fig.width=8}
 l <- length(missing.vars)
 if (l > 0){
@@ -123,6 +131,8 @@ if (l > 0){
 ```
 
 ## `r params$location_variable` on Missing
+
+Figures to summarize Location  on missing bias.
 
 ``` {r, fig.width=12}
 
