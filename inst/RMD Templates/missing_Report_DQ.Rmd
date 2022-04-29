@@ -1,5 +1,5 @@
 ---
-title: "Template1"
+title: "Variable Quality Report"
 output: html_document
 params:
   path: C:\Users\LOCAL_~3\Temp\RtmpkPFN75\file478c7eb84396
@@ -7,7 +7,7 @@ params:
 
 ---
 
-```{r setup}
+```{r setup, echo=F}
 knitr::opts_chunk$set(echo=F, warning=F, message = F)
 ```
 
@@ -49,6 +49,11 @@ lpad <- function(values, n, with=""){
   c(values, rep(with, n - length(values)))
 }
 
+```
+
+## Missing data:
+
+``` {r}
 tibble(
   `Missing Group` = c("100% Missing", "[80%, 100%) Missing", "[50%, 80%) Missing", 
     "[20%, 50%) Missing", "(0%, 20%) Missing", "0% Missing"),
@@ -84,6 +89,8 @@ tibble(
     length(modal.gr0.2), length(modal.gr0.0), length(modal.0))
 ) %>% knitr::kable(caption = "Frequnecy of variables by rate of missing values.")
 ```
+
+## Modal Variable:
 
 ``` {r}
 m.modal <- c(length(modal.1), length(modal.gr0.8), length(modal.gr0.5), 
