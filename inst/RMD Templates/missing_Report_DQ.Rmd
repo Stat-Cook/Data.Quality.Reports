@@ -53,6 +53,8 @@ lpad <- function(values, n, with=""){
 
 ## Missing data:
 
+Data with high levels of missing data (e.g. >80%) will be of little use analytically.  Note - when performing sub-group analyses variables with high, but not 100%, missingness may be more valuable.  
+
 ``` {r}
 tibble(
   `Missing Group` = c("100% Missing", "[80%, 100%) Missing", "[50%, 80%) Missing", 
@@ -91,6 +93,8 @@ tibble(
 ```
 
 ## Modal Variable:
+
+Variables where the modal (most common) value dominates the variable have little impact on analytical models.  Where the modal value makes up 100% of the variable, including in an analytical model is pointless.
 
 ``` {r}
 m.modal <- c(length(modal.1), length(modal.gr0.8), length(modal.gr0.5), 
