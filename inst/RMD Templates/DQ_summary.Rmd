@@ -53,7 +53,7 @@ data.summary <- function(data) {
 
 data <- readRDS(params$path)
 
-report <- do.call(rbind, lapply(data, f)) 
+report <- do.call(rbind, lapply(data, data.summary)) 
 
 as_tibble(report, rownames="Dataset") %>% style_table()
 
