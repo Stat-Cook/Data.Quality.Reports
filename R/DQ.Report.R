@@ -18,24 +18,33 @@ DQ.Report <- function(con, pattern){
   for (i in tabs){
     data <- tbl(con, i) %>% collect()
 
-    data.modal.size <- lapply(data, modal.report)
-    data.modal.size <- t(do.call(data.frame, data.modal.size))
-    data.modal.size <- as_tibble(data.modal.size, rownames="Variable") %>%
-      mutate(Proportion = as.numeric(Proportion))
+    if (dim(data)[1] > 0){
 
-    data.modal.size <- data.modal.size %>% filter(Proportion > 0.8)
-    data.missing <- data.modal.size  %>% filter(Value %in% missing)
-    data.modal <- data.modal.size  %>% filter(!(Value %in% missing))
+      data.modal.size <- lapply(data, modal.report)
+      data.modal.size <- t(do.call(data.frame, data.modal.size))
+      data.modal.size <- as_tibble(data.modal.size, rownames="Variable") %>%
+        mutate(Proportion = as.numeric(Proportion))
 
-    last.col.string <- tail(colnames(data), 1)
-    last.col <- data[[last.col.string]]
-    comma.cnt <- str_count(last.col, ",")
-    comma.tbl <- table(comma.cnt)
+      data.modal.size <- data.modal.size %>% filter(Proportion > 0.8)
+      data.missing <- data.modal.size  %>% filter(Value %in% missing)
+      data.modal <- data.modal.size  %>% filter(!(Value %in% missing))
 
-    results[[i]] <- list("Missing" = data.missing,
-                         "Modal" = data.modal,
-                         "Comma" = comma.tbl,
-                         "Dimensions" = dim(data))
+      last.col.string <- tail(colnames(data), 1)
+      last.col <- data[[last.col.string]]
+      comma.cnt <- str_count(last.col, ",")
+      comma.tbl <- table(comma.cnt)
+
+      results[[i]] <- list("Missing" = data.missing,
+                           "Modal" = data.modal,
+                           "Comma" = comma.tbl,
+                           "Dimensions" = dim(data))
+    }
+    else {
+      results[[i]] <- list("Missing" = NA,
+                           "Modal" = NA,
+                           "Comma" = NA,
+                           "Dimensions" = dim(data))
+    }
   }
 
   return(results)
