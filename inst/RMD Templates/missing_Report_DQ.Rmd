@@ -15,12 +15,6 @@ knitr::opts_chunk$set(echo=F, warning=F, message = F)
 {
   library(tidyverse)
   library(lubridate)
-  library(shiny)
-  library(caret)
-  library(pROC)
-  library(glue)
-  
-  library(NURS.Data.Quality)
   library(Data.Quality.Reports)
 }
 

@@ -15,17 +15,11 @@ knitr::opts_chunk$set(echo=F, warning=F, message = F)
 
 ``` {r}
 library(tidyverse)
-library(recipes)
+library(Data.Quality.Reports)
 library(lubridate)
-library(NURS.Data.Quality)
-library(caret)
 
 MISSING_TYPES <- c(NA, "", " ", "NA", "nan", "  /  /    ",
                    "NULL", "null", "Null")
-# source("make.limited.class.encoder.R")
-# source("mining.functions.R")
-# source("prepare.data.R")
-# source("feature.fit.R")
 
 ```
 
