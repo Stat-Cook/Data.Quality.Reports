@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo=F, warning=F, message = F)
 
 ``` {r}
 library(tidyverse)
+library(recipes)
 library(Data.Quality.Reports)
 library(lubridate)
 
